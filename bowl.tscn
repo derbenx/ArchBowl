@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://b7hmaj5lconti"]
+
+[ext_resource type="Script" uid="uid://ce5jcvk313700" path="res://node_3d.gd" id="1_6yfex"]
+[ext_resource type="PackedScene" uid="uid://b2b5xklw2xvab" path="res://3d/ball.glb" id="2_f4wr4"]
+[ext_resource type="PackedScene" uid="uid://hgv3upugxo52" path="res://3d/gutter.glb" id="3_mamk5"]
+[ext_resource type="PackedScene" uid="uid://dreeutx3ufunc" path="res://3d/lane.glb" id="4_vw461"]
+[ext_resource type="PackedScene" uid="uid://xb0cn1remjgu" path="res://3d/pin.glb" id="5_cdvkh"]
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_6yfex")
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 2.1229868)
+
+[node name="Left" type="XRController3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, -0.5)
+tracker = &"left_hand"
+
+[node name="Right" type="XRController3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, -0.5)
+tracker = &"right_hand"
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9490864, 0)
+
+[node name="ball2" parent="." instance=ExtResource("2_f4wr4")]
+
+[node name="gutter2" parent="." instance=ExtResource("3_mamk5")]
+
+[node name="lane2" parent="." instance=ExtResource("4_vw461")]
+
+[node name="pin2" parent="." instance=ExtResource("5_cdvkh")]

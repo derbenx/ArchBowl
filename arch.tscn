@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://divxv08ifg5ja"]
+
+[ext_resource type="Script" uid="uid://ce5jcvk313700" path="res://node_3d.gd" id="1_a202f"]
+[ext_resource type="PackedScene" uid="uid://d2sxc6xr0mff4" path="res://3d/target.glb" id="2_r3fl7"]
+[ext_resource type="PackedScene" uid="uid://ctp0nto544kga" path="res://3d/bow.glb" id="3_jka67"]
+[ext_resource type="PackedScene" uid="uid://b3o2llmp6u2pf" path="res://3d/arrow.glb" id="4_i5arm"]
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_a202f")
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+
+[node name="Left" type="XRController3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, -0.5)
+tracker = &"left_hand"
+
+[node name="Right" type="XRController3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, -0.5)
+tracker = &"right_hand"
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6054015, 0)
+
+[node name="target" parent="." instance=ExtResource("2_r3fl7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.027541518, 1.6515095, -4.9693227)
+
+[node name="bow2" parent="." instance=ExtResource("3_jka67")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2914526, 1.4404618, -2.77226)
+
+[node name="arrow2" parent="." instance=ExtResource("4_i5arm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.1280781, 1.3471595, -2.80414)
