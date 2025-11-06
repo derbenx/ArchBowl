@@ -1,34 +1,79 @@
-[gd_scene load_steps=6 format=3 uid="uid://b7hmaj5lconti"]
+[gd_scene load_steps=13 format=3 uid="uid://b7hmaj5lconti"]
 
 [ext_resource type="Script" uid="uid://ce5jcvk313700" path="res://node_3d.gd" id="1_6yfex"]
 [ext_resource type="PackedScene" uid="uid://b2b5xklw2xvab" path="res://3d/ball.glb" id="2_f4wr4"]
+[ext_resource type="Script" uid="uid://b78noebq7x2g4" path="res://xr_origin_3d.gd" id="2_mamk5"]
+[ext_resource type="Script" uid="uid://52f3y47fvwru" path="res://bowlcont.gd" id="3_cdvkh"]
 [ext_resource type="PackedScene" uid="uid://hgv3upugxo52" path="res://3d/gutter.glb" id="3_mamk5"]
 [ext_resource type="PackedScene" uid="uid://dreeutx3ufunc" path="res://3d/lane.glb" id="4_vw461"]
 [ext_resource type="PackedScene" uid="uid://xb0cn1remjgu" path="res://3d/pin.glb" id="5_cdvkh"]
+[ext_resource type="Script" uid="uid://bkocbmw5lpwco" path="res://ball.gd" id="6_vw461"]
+
+[sub_resource type="Environment" id="Environment_vw461"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mamk5"]
+size = Vector3(1.65, 0.02, 7.699585)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_f4wr4"]
+size = Vector3(99, 0.1, 99)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_f4wr4"]
+radius = 0.12517713
 
 [node name="Node3D" type="Node3D"]
 script = ExtResource("1_6yfex")
 
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
+script = ExtResource("2_mamk5")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="XROrigin3D"]
+environment = SubResource("Environment_vw461")
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 2.1229868)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5484765, 3.1863413)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 0.74184716, 0.67056906, 0, -0.67056906, 0.74184716, 0, 5.2256136, 0)
+light_indirect_energy = 0.5
 
 [node name="Left" type="XRController3D" parent="XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, -0.5)
 tracker = &"left_hand"
+script = ExtResource("3_cdvkh")
 
 [node name="Right" type="XRController3D" parent="XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, -0.5)
 tracker = &"right_hand"
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="XROrigin3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9490864, 0)
-
-[node name="ball2" parent="." instance=ExtResource("2_f4wr4")]
-
-[node name="gutter2" parent="." instance=ExtResource("3_mamk5")]
-
-[node name="lane2" parent="." instance=ExtResource("4_vw461")]
+script = ExtResource("3_cdvkh")
 
 [node name="pin2" parent="." instance=ExtResource("5_cdvkh")]
+visible = false
+
+[node name="lane" type="StaticBody3D" parent="."]
+
+[node name="lane2" parent="lane" instance=ExtResource("4_vw461")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.010312438, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="lane"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.8010864)
+shape = SubResource("BoxShape3D_mamk5")
+
+[node name="ground" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.091529965, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.049184203, 0)
+shape = SubResource("BoxShape3D_f4wr4")
+
+[node name="ball" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9798058, 0)
+linear_velocity = Vector3(0, 0, -2)
+script = ExtResource("6_vw461")
+
+[node name="ball2" parent="ball" instance=ExtResource("2_f4wr4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.13468778, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ball"]
+shape = SubResource("SphereShape3D_f4wr4")
+
+[node name="gutter2" parent="." instance=ExtResource("3_mamk5")]

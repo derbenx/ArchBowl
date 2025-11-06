@@ -1,18 +1,86 @@
-[gd_scene format=3 uid="uid://bc5bsyo046l62"]
+[gd_scene load_steps=12 format=3 uid="uid://bc5bsyo046l62"]
 
-[node name="Start" type="Node3D"]
+[ext_resource type="Script" uid="uid://ce5jcvk313700" path="res://node_3d.gd" id="1_1n0d2"]
+[ext_resource type="Script" uid="uid://bsjhco331epxk" path="res://pointer.gd" id="1_ots34"]
+[ext_resource type="Script" uid="uid://b78noebq7x2g4" path="res://xr_origin_3d.gd" id="2_y5hus"]
+[ext_resource type="Script" uid="uid://cm6tu733n8fx2" path="res://hover.gd" id="4_4a3qj"]
+[ext_resource type="PackedScene" uid="uid://ctp0nto544kga" path="res://3d/bow.glb" id="4_oiuna"]
+[ext_resource type="PackedScene" uid="uid://b2b5xklw2xvab" path="res://3d/ball.glb" id="5_4a3qj"]
+
+[sub_resource type="Environment" id="Environment_1svla"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_oiuna"]
+albedo_color = Color(0, 0, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4a3qj"]
+albedo_color = Color(0, 1, 0, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_oiuna"]
+size = Vector3(0.13, 1.65, 0.385)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4a3qj"]
+size = Vector3(0.3, 0.3, 0.3)
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_1n0d2")
 
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
+script = ExtResource("2_y5hus")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="XROrigin3D"]
+environment = SubResource("Environment_1svla")
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.1441824, 0.51186717)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 0.91033006, 0.41388312, 0, -0.41388312, 0.91033006, 0, 4.6976557, 0)
 
 [node name="Left" type="XRController3D" parent="XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, -0.5)
 tracker = &"left_hand"
+script = ExtResource("1_ots34")
+
+[node name="RayCast3D" type="RayCast3D" parent="XROrigin3D/Left"]
+target_position = Vector3(0, 0, -2)
+
+[node name="PointerCylinder" type="CSGCylinder3D" parent="XROrigin3D/Left"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, -0.5)
+material_override = SubResource("StandardMaterial3D_oiuna")
+radius = 0.005
+height = 1.0
 
 [node name="Right" type="XRController3D" parent="XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, -0.5)
 tracker = &"right_hand"
+script = ExtResource("1_ots34")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="XROrigin3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6054015, 0)
+[node name="RayCast3D" type="RayCast3D" parent="XROrigin3D/Right"]
+target_position = Vector3(0, 0, -2)
+
+[node name="PointerCylinder" type="CSGCylinder3D" parent="XROrigin3D/Right"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, -0.5)
+material_override = SubResource("StandardMaterial3D_4a3qj")
+radius = 0.005
+height = 1.0
+
+[node name="arch" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5070299, 1.1450953, -1.9549017)
+script = ExtResource("4_4a3qj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="arch"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+shape = SubResource("BoxShape3D_oiuna")
+
+[node name="bow2" parent="arch" instance=ExtResource("4_oiuna")]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0, 0)
+
+[node name="bowl" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7293724, 1.1450953, -1.8851228)
+script = ExtResource("4_4a3qj")
+
+[node name="ball2" parent="bowl" instance=ExtResource("5_4a3qj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.12469269, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="bowl"]
+shape = SubResource("BoxShape3D_4a3qj")
